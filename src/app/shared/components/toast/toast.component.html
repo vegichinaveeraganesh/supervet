@@ -1,0 +1,24 @@
+<div class="toast-container" aria-live="polite">
+  @for (toast of toastService.toasts(); track toast.id) {
+    <div class="toast-item" [ngClass]="'toast--' + toast.type">
+      <div class="toast-icon">
+        @if (toast.type === 'success') {
+          <app-icon name="check" size="20" color="#10B981"></app-icon>
+        } @else if (toast.type === 'error') {
+          <app-icon name="alert-circle" size="20" color="#EF3340"></app-icon>
+        } @else if (toast.type === 'warning') {
+          <app-icon name="alert-circle" size="20" color="#F59E0B"></app-icon>
+        } @else {
+          <app-icon name="heart-pulse" size="20" color="#1261A8"></app-icon>
+        }
+      </div>
+      <div class="toast-content">
+        <h4 class="toast-title">{{ toast.title }}</h4>
+        <p class="toast-message">{{ toast.message }}</p>
+      </div>
+      <button class="toast-close" (click)="toastService.remove(toast.id)" aria-label="Close toast">
+        <app-icon name="x" size="16" color="#64748B"></app-icon>
+      </button>
+    </div>
+  }
+</div>

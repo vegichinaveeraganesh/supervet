@@ -1,0 +1,224 @@
+// ═══════════════════════════════════════════════════════════════
+// SuperVet Design System — Buttons
+// ═══════════════════════════════════════════════════════════════
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// ─── Button Sizes ────────────────────────────────────────────
+.btn {
+  @include button-base;
+
+  // Ripple effect
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 10%, transparent 70%);
+    opacity: 0;
+    transform: scale(0);
+    transition: transform 0.5s, opacity 0.3s;
+  }
+
+  &:active::after {
+    transform: scale(2.5);
+    opacity: 1;
+    transition: 0s;
+  }
+}
+
+.btn-sm {
+  padding: $space-2 $space-4;
+  font-size: $font-size-sm;
+  border-radius: $radius-md;
+}
+
+.btn-lg {
+  padding: $space-4 $space-8;
+  font-size: $font-size-md;
+  border-radius: $radius-xl;
+}
+
+.btn-xl {
+  padding: $space-5 $space-10;
+  font-size: $font-size-lg;
+  border-radius: $radius-xl;
+}
+
+// ─── Primary Button (Blue) ──────────────────────────────────
+.btn-primary {
+  @extend .btn;
+  background: $primary-blue;
+  color: $white;
+  border-color: $primary-blue;
+
+  &:hover:not(:disabled) {
+    background: $blue-600;
+    border-color: $blue-600;
+    box-shadow: $shadow-blue;
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    background: $blue-700;
+    transform: translateY(0);
+  }
+}
+
+// ─── Secondary Button (Blue Outline) ────────────────────────
+.btn-secondary {
+  @extend .btn;
+  background: transparent;
+  color: $primary-blue;
+  border-color: $primary-blue;
+
+  &:hover:not(:disabled) {
+    background: $light-blue;
+    box-shadow: $shadow-sm;
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    background: $blue-100;
+    transform: translateY(0);
+  }
+}
+
+// ─── Danger Button (Red) ────────────────────────────────────
+.btn-danger {
+  @extend .btn;
+  background: $accent-red;
+  color: $white;
+  border-color: $accent-red;
+
+  &:hover:not(:disabled) {
+    background: $red-500;
+    border-color: $red-500;
+    box-shadow: $shadow-red;
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    background: $red-600;
+    transform: translateY(0);
+  }
+}
+
+// ─── Danger Outline ──────────────────────────────────────────
+.btn-danger-outline {
+  @extend .btn;
+  background: transparent;
+  color: $accent-red;
+  border-color: $accent-red;
+
+  &:hover:not(:disabled) {
+    background: $soft-red;
+    box-shadow: $shadow-sm;
+    transform: translateY(-1px);
+  }
+}
+
+// ─── Ghost Button ────────────────────────────────────────────
+.btn-ghost {
+  @extend .btn;
+  background: transparent;
+  color: $text-primary;
+  border-color: transparent;
+
+  &:hover:not(:disabled) {
+    background: $gray-100;
+  }
+}
+
+// ─── White Button ────────────────────────────────────────────
+.btn-white {
+  @extend .btn;
+  background: $white;
+  color: $primary-blue;
+  border-color: $white;
+
+  &:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: $shadow-lg;
+    transform: translateY(-1px);
+  }
+}
+
+// ─── Gradient Button ─────────────────────────────────────────
+.btn-gradient {
+  @extend .btn;
+  @include gradient-blue;
+  color: $white;
+  border-color: transparent;
+
+  &:hover:not(:disabled) {
+    box-shadow: $shadow-blue;
+    transform: translateY(-1px);
+    filter: brightness(1.1);
+  }
+}
+
+// ─── Icon Button ─────────────────────────────────────────────
+.btn-icon {
+  @extend .btn;
+  padding: $space-3;
+  border-radius: $radius-lg;
+  background: transparent;
+  color: $text-secondary;
+  border-color: $gray-200;
+
+  &:hover:not(:disabled) {
+    background: $light-blue;
+    color: $primary-blue;
+    border-color: rgba($primary-blue, 0.2);
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+// ─── Pill Button ─────────────────────────────────────────────
+.btn-pill {
+  border-radius: $radius-full !important;
+}
+
+// ─── Full Width ──────────────────────────────────────────────
+.btn-full {
+  width: 100%;
+}
+
+// ─── Button Group ────────────────────────────────────────────
+.btn-group {
+  display: flex;
+  gap: $space-3;
+  flex-wrap: wrap;
+
+  @include max-sm {
+    flex-direction: column;
+
+    .btn {
+      width: 100%;
+    }
+  }
+}
+
+// ─── Emergency CTA Button ───────────────────────────────────
+.btn-emergency {
+  @extend .btn;
+  @include gradient-red;
+  color: $white;
+  border-color: transparent;
+  font-weight: $font-weight-bold;
+  animation: pulse-red 2s infinite;
+
+  &:hover:not(:disabled) {
+    box-shadow: $shadow-red;
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes pulse-red {
+  0%, 100% { box-shadow: 0 0 0 0 rgba($accent-red, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba($accent-red, 0); }
+}

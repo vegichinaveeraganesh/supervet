@@ -1,0 +1,134 @@
+<div class="services-page">
+
+  <!-- Hero -->
+  <section class="services-hero">
+    <div class="page-container hero-layout">
+      <div class="hero-copy">
+        <span class="eyebrow">Our services</span>
+        <h1>Every kind of care, <em>under one roof.</em></h1>
+        <p>
+          From emergencies at 3 a.m. to grooming days and everyday nutrition, find the right
+          service for your dog, cat, rabbit or bird and book a slot in a minute.
+        </p>
+
+        <ul class="hero-facts">
+          <li><span class="dot live"></span> Emergency care, open 24/7</li>
+          <li><span class="dot"></span> Seethammadhara, Visakhapatnam</li>
+          <li><span class="dot"></span> Book online or call +91 78426 26060</li>
+        </ul>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-blob"></div>
+        <img src="assets/images/services/consultation.png" alt="" (error)="$any($event.target).style.display='none'" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Filters -->
+  <section class="filters-section">
+    <div class="page-container filters-layout">
+      <label class="search-box">
+        <app-icon name="search" size="18" color="#5C6F67"></app-icon>
+        <input type="text" [(ngModel)]="searchQuery" (ngModelChange)="applyFilters()"
+          placeholder="Search by treatment or condition, e.g. vaccination, fracture, echo"
+          aria-label="Search services" />
+        @if (searchQuery) {
+        <button type="button" class="clear-btn" aria-label="Clear search" (click)="searchQuery = ''; applyFilters()">
+          <app-icon name="x" size="14" color="#0B3A2C"></app-icon>
+        </button>
+        }
+      </label>
+
+      <div class="category-pills" role="group" aria-label="Service categories">
+        @for (cat of serviceService.categories(); track cat) {
+        <button type="button" class="category-pill" [class.active]="selectedCategory === cat"
+          [attr.aria-pressed]="selectedCategory === cat" (click)="selectCategory(cat)">
+          {{ cat }}
+        </button>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="services-section">
+    <div class="page-container">
+      <div class="section-heading">
+        <h2>
+          @if (selectedCategory === 'All') { All services } @else { {{ selectedCategory }} }
+        </h2>
+
+        <div class="section-tools">
+          <span><strong>{{ filteredServices.length }}</strong> {{ filteredServices.length === 1 ? 'service' : 'services'
+            }}</span>
+          <div class="view-switch" role="group" aria-label="Layout">
+            <button type="button" [class.active]="viewMode === 'grid'" [attr.aria-pressed]="viewMode === 'grid'"
+              aria-label="Grid view" (click)="viewMode = 'grid'">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                <rect x="1" y="1" width="6" height="6" rx="1.5" />
+                <rect x="9" y="1" width="6" height="6" rx="1.5" />
+                <rect x="1" y="9" width="6" height="6" rx="1.5" />
+                <rect x="9" y="9" width="6" height="6" rx="1.5" />
+              </svg>
+            </button>
+            <button type="button" [class.active]="viewMode === 'list'" [attr.aria-pressed]="viewMode === 'list'"
+              aria-label="List view" (click)="viewMode = 'list'">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                <rect x="1" y="2" width="14" height="4.5" rx="1.5" />
+                <rect x="1" y="9.5" width="14" height="4.5" rx="1.5" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      @if (filteredServices.length === 0) {
+      <div class="no-results">
+        <app-icon name="search" size="40" color="#5C6F67"></app-icon>
+        <h3>No treatments match your search</h3>
+        <p>Try another keyword, or clear the filters to see every service.</p>
+        <button type="button" class="reset-btn" (click)="resetFilters()">Clear filters</button>
+      </div>
+      } @else {
+      <div class="services-grid" [class.list-view]="viewMode === 'list'">
+        @for (svc of filteredServices; track svc.id; let i = $index) {
+        <article class="service-card" [ngClass]="getCardTheme(svc, i)" [class.is-emergency]="svc.isEmergency">
+          @if (svc.isEmergency) {
+          <span class="emergency-chip">Open 24/7</span>
+          }
+
+          <div class="card-icon">
+            <app-icon [name]="svc.icon" size="22" [color]="svc.isEmergency ? '#C94624' : '#0B3A2C'"></app-icon>
+          </div>
+
+          <div class="card-content">
+            <h3>{{ svc.name }}</h3>
+            <p>{{ svc.description }}</p>
+
+            <div class="animal-tags">
+              @for (animal of svc.animalTypes; track animal) {
+              <span>{{ animal }}</span>
+              }
+            </div>
+          </div>
+
+          <img class="pet-image" [src]="getServiceImage(svc)" alt="" loading="lazy"
+            (error)="$any($event.target).style.display='none'" />
+
+          <div class="card-bottom">
+            <div class="fee">
+              <small>Estimated fee</small>
+              <strong>{{ svc.priceRange || 'Consultation fee' }}</strong>
+            </div>
+            <button type="button" class="book-btn" (click)="aptService.openQuickBook(svc.name)">
+              Book a slot
+            </button>
+          </div>
+        </article>
+        }
+      </div>
+      }
+    </div>
+  </section>
+</div>

@@ -1,0 +1,357 @@
+<div class="grooming-page">
+
+    <!-- HERO -->
+    <section class="grooming-hero">
+        <div class="hero-decoration circle-one"></div>
+        <div class="hero-decoration circle-two"></div>
+
+        <div class="container hero-layout">
+
+            <div class="hero-content">
+
+                <div class="hero-eyebrow">
+                    <span class="eyebrow-icon">✦</span>
+                    PREMIUM PET GROOMING & SPA
+                </div>
+
+                <h1>
+                    A little pampering,
+                    <span class="gradient-text">a lot of love.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Because every pet deserves to feel fabulous.
+                    Discover gentle grooming, relaxing spa rituals,
+                    and personalized care for your furry best friend.
+                </p>
+
+                <div class="hero-actions">
+                    <button class="btn-main" type="button" (click)="scrollToPackages()">
+                        <app-icon name="sparkles" size="19" color="#FFFFFF"></app-icon>
+                        Explore Spa Packages
+                        <app-icon name="arrow-right" size="18" color="#FFFFFF"></app-icon>
+                    </button>
+
+                    <button class="btn-outline" type="button"
+                        (click)="aptService.openQuickBook('Pet Grooming Consultation')">
+                        Book a Consultation
+                    </button>
+                </div>
+
+                <div class="hero-features">
+                    <div class="hero-feature">
+                        <span class="feature-icon mint">
+                            <app-icon name="shield-check" size="19"></app-icon>
+                        </span>
+                        Gentle Care
+                    </div>
+
+                    <div class="hero-feature">
+                        <span class="feature-icon lavender">
+                            <app-icon name="heart" size="19"></app-icon>
+                        </span>
+                        Pet First
+                    </div>
+
+                    <div class="hero-feature">
+                        <span class="feature-icon peach">
+                            <app-icon name="sparkles" size="19"></app-icon>
+                        </span>
+                        Premium Spa
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="hero-visual">
+                <div class="hero-image-frame">
+                    <img src="Lavender Pet Spa Pals.png" alt="Happy dog enjoying a premium grooming spa"
+                        class="hero-image" />
+                </div>
+
+                <div class="floating-card card-top">
+                    <span class="floating-icon">💜</span>
+                    <div>
+                        <strong>Made with love</strong>
+                        <small>For every furry friend</small>
+                    </div>
+                </div>
+
+                <div class="floating-card card-bottom">
+                    <span class="floating-icon">✨</span>
+                    <div>
+                        <strong>Fresh & Fabulous</strong>
+                        <small>Every visit, every time</small>
+                    </div>
+                </div>
+
+                <div class="hero-sparkle sparkle-one">✦</div>
+                <div class="hero-sparkle sparkle-two">✧</div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- TRUST STRIP -->
+    <section class="trust-strip">
+        <div class="container trust-grid">
+            <div class="trust-item">
+                <app-icon name="heart-handshake" size="25"></app-icon>
+                <span>Gentle Handling</span>
+            </div>
+            <div class="trust-item">
+                <app-icon name="leaf" size="25"></app-icon>
+                <span>Skin-Friendly Products</span>
+            </div>
+            <div class="trust-item">
+                <app-icon name="shield-check" size="25"></app-icon>
+                <span>Hygiene Focused</span>
+            </div>
+            <div class="trust-item">
+                <app-icon name="sparkles" size="25"></app-icon>
+                <span>Personalized Grooming</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- PACKAGES -->
+    <section class="packages-section" id="spa-packages">
+        <div class="container">
+
+            <div class="section-heading">
+                <div class="section-label">
+                    <span>✦</span> THE SPA MENU
+                </div>
+
+                <h2>Find their perfect <em>pamper package.</em></h2>
+
+                <p>
+                    From a quick freshen-up to a complete spa makeover,
+                    discover the perfect treat for your pet.
+                </p>
+            </div>
+
+            <div class="packages-grid">
+
+                @for (pkg of packages; track pkg.id; let i = $index) {
+
+                <article class="package-card" [class.popular]="pkg.isPopular"
+                    [class.selected]="selectedPackage?.id === pkg.id" [attr.data-theme]="getPackageTheme(i)">
+
+                    @if (pkg.isPopular) {
+                    <div class="popular-tag">
+                        <app-icon name="star" size="13" color="#FFFFFF"></app-icon>
+                        MOST LOVED
+                    </div>
+                    }
+
+                    <div class="package-art">
+                        <div class="art-circle">
+                            <app-icon [name]="getPackageIcon(i)" size="42">
+                            </app-icon>
+                        </div>
+
+                        <span class="art-sparkle">✦</span>
+                        <span class="art-sparkle secondary">✧</span>
+                    </div>
+
+                    <div class="package-content">
+
+                        <div class="package-topline">
+                            <span class="package-number">
+                                SPA RITUAL 0{{ i + 1 }}
+                            </span>
+                            <span class="duration">
+                                <app-icon name="clock-3" size="14"></app-icon>
+                                {{ pkg.duration }}
+                            </span>
+                        </div>
+
+                        <h3>{{ pkg.name }}</h3>
+                        <p class="package-description">{{ pkg.description }}</p>
+
+                        <div class="price-block">
+                            <div>
+                                <span class="price-label">Starting at</span>
+                                <div class="price">₹{{ pkg.price }}</div>
+                            </div>
+                            <span class="price-sparkle">✦</span>
+                        </div>
+
+                        <div class="included-heading">
+                            WHAT'S INCLUDED
+                        </div>
+
+                        <ul class="inclusions">
+                            @for (inc of pkg.includes; track inc) {
+                            <li>
+                                <span class="check-icon">
+                                    <app-icon name="check" size="13"></app-icon>
+                                </span>
+                                <span>{{ inc }}</span>
+                            </li>
+                            }
+                        </ul>
+
+                        <button type="button" class="package-button" (click)="bookPackage(pkg)">
+                            Book This Package
+                            <app-icon name="arrow-up-right" size="18"></app-icon>
+                        </button>
+
+                        <button type="button" class="customize-link" (click)="selectPackage(pkg)">
+                            Customize with add-ons
+                            <app-icon name="arrow-right" size="14"></app-icon>
+                        </button>
+
+                    </div>
+                </article>
+                }
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SPA ADD ONS -->
+    <section class="addons-section" id="custom-spa">
+        <div class="container">
+
+            <div class="addons-layout">
+
+                <div class="addons-main">
+
+                    <div class="section-label">
+                        <span>✦</span> EXTRA LITTLE LUXURIES
+                    </div>
+
+                    <h2>Make their spa day <em>extra special.</em></h2>
+
+                    <p class="addons-description">
+                        Add a little more love to their grooming session.
+                        Choose from our special wellness treatments.
+                    </p>
+
+                    <div class="addons-grid">
+
+                        @for (addon of addons; track addon.id) {
+
+                        <button type="button" class="addon-card" [class.active]="addon.selected"
+                            [attr.aria-pressed]="addon.selected" (click)="toggleAddon(addon)">
+
+                            <div class="addon-top">
+                                <div class="addon-icon" [attr.data-color]="addon.color">
+                                    <app-icon [name]="addon.icon" size="24">
+                                    </app-icon>
+                                </div>
+
+                                <span class="addon-checkbox">
+                                    @if (addon.selected) {
+                                    <app-icon name="check" size="15" color="#FFFFFF">
+                                    </app-icon>
+                                    }
+                                </span>
+                            </div>
+
+                            <h3>{{ addon.name }}</h3>
+                            <p>{{ addon.description }}</p>
+
+                            <div class="addon-bottom">
+                                <strong>+₹{{ addon.price }}</strong>
+                                <span>
+                                    {{ addon.selected ? 'Added ✓' : 'Add to spa +' }}
+                                </span>
+                            </div>
+
+                        </button>
+                        }
+
+                    </div>
+
+                </div>
+
+                <!-- LIVE BOOKING SUMMARY -->
+                <aside class="booking-summary">
+
+                    <div class="summary-top">
+                        <span class="summary-icon">🛁</span>
+                        <h3>Your Spa Experience</h3>
+                        <p>Made just for your furry friend</p>
+                    </div>
+
+                    <div class="summary-body">
+
+                        <div class="summary-row">
+                            <span>Selected Package</span>
+                            <strong>
+                                {{ selectedPackage?.name || 'Not selected' }}
+                            </strong>
+                        </div>
+
+                        <div class="summary-row">
+                            <span>Package Price</span>
+                            <strong>₹{{ packagePrice }}</strong>
+                        </div>
+
+                        <div class="summary-row">
+                            <span>Selected Add-ons</span>
+                            <strong>{{ selectedAddonsCount }}</strong>
+                        </div>
+
+                        <div class="summary-row">
+                            <span>Add-ons Total</span>
+                            <strong>₹{{ addonsTotal }}</strong>
+                        </div>
+
+                        <div class="summary-divider"></div>
+
+                        <div class="summary-total">
+                            <div>
+                                <span>Estimated Total</span>
+                                <small>Final pricing confirmed at booking</small>
+                            </div>
+                            <strong>₹{{ grandTotal }}</strong>
+                        </div>
+
+                        <button type="button" class="summary-book-btn" (click)="bookCustomSpa()">
+                            Book My Spa Day
+                            <app-icon name="arrow-right" size="18" color="#FFFFFF">
+                            </app-icon>
+                        </button>
+
+                        <div class="summary-note">
+                            <app-icon name="heart" size="15"></app-icon>
+                            Happy pets, happy hearts!
+                        </div>
+
+                    </div>
+                </aside>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="final-cta-section">
+        <div class="container">
+            <div class="final-cta">
+                <div class="cta-decor">✦</div>
+
+                <div class="cta-content">
+                    <span class="cta-eyebrow">A FRESH START FOR YOUR PET</span>
+                    <h2>Ready for a little glow-up?</h2>
+                    <p>
+                        Give your furry friend the relaxing,
+                        refreshing spa experience they deserve.
+                    </p>
+                    <button type="button" (click)="aptService.openQuickBook('Pet Grooming')">
+                        Book a Grooming Appointment
+                        <app-icon name="arrow-up-right" size="18">
+                        </app-icon>
+                    </button>
+                </div>
+
+                <div class="cta-emoji">🐶</div>
+            </div>
+        </div>
+    </section>
+
+</div>

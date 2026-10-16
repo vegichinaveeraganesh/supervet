@@ -1,0 +1,128 @@
+<footer class="main-footer">
+  <div class="container">
+    <!-- Newsletter / CTA band -->
+    <div class="cta-band">
+      <div class="cta-copy">
+        <h3>Pet care tips, <em>straight from our vets.</em></h3>
+        <p>Seasonal health alerts, vaccination reminders and offers. No spam.</p>
+      </div>
+      <form class="subscribe" (submit)="onSubscribe($event)">
+        <label for="footer-email" class="sr-only">Email address</label>
+        <input id="footer-email" type="email" name="emailInput" [(ngModel)]="emailInput"
+          placeholder="Your email address" required />
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+
+    <div class="footer-grid">
+      <!-- Brand -->
+      <div class="footer-col col-brand">
+        <a routerLink="/" class="footer-logo" aria-label="SuperVets home">
+          <span class="logo-paw-icon">
+            <svg viewBox="0 0 32 32" width="26" height="26" fill="none" aria-hidden="true">
+              <ellipse cx="16" cy="20" rx="6.5" ry="5.5" fill="#BFE3D1" />
+              <ellipse cx="9" cy="12" rx="3" ry="4.5" transform="rotate(-15 9 12)" fill="#E8643C" />
+              <ellipse cx="14" cy="9.5" rx="2.8" ry="4.2" fill="#BFE3D1" />
+              <ellipse cx="18" cy="9.5" rx="2.8" ry="4.2" fill="#BFE3D1" />
+              <ellipse cx="23" cy="12" rx="3" ry="4.5" transform="rotate(15 23 12)" fill="#E8643C" />
+            </svg>
+          </span>
+          <span class="logo-text">
+            <span class="brand-title">SuperVets Pet Clinic and Spa</span>
+            <span class="brand-subtitle">24/7 emergency services</span>
+          </span>
+        </a>
+
+        <p class="brand-desc">
+          Your trusted partner in pet health and wellness. World-class veterinary care, grooming and pharmacy, for a
+          happier, healthier life.
+        </p>
+
+        <div class="social-links">
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="social-icon"
+            aria-label="Facebook">
+            <app-icon name="facebook" size="18" color="#FFFFFF"></app-icon>
+          </a>
+          <a href="https://www.instagram.com/supervets_petclinic_spa/" target="_blank" rel="noopener noreferrer"
+            class="social-icon" aria-label="Instagram">
+            <app-icon name="instagram" size="18" color="#FFFFFF"></app-icon>
+          </a>
+          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="social-icon"
+            aria-label="YouTube">
+            <app-icon name="youtube" size="18" color="#FFFFFF"></app-icon>
+          </a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-icon"
+            aria-label="LinkedIn">
+            <app-icon name="linkedin" size="18" color="#FFFFFF"></app-icon>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick links -->
+      <nav class="footer-col" aria-label="Quick links">
+        <h4 class="col-title">Quick links</h4>
+        <ul class="footer-links">
+          <li><a routerLink="/">Home</a></li>
+          <li><a routerLink="/about">About</a></li>
+          <li><a routerLink="/services">Services</a></li>
+          <li><a routerLink="/doctors">Doctors</a></li>
+          <li><a routerLink="/grooming">Grooming</a></li>
+          <li><a routerLink="/store">Pet store</a></li>
+        </ul>
+      </nav>
+
+      <!-- Pet care -->
+      <nav class="footer-col" aria-label="Pet care">
+        <h4 class="col-title">Pet care</h4>
+        <ul class="footer-links">
+          <li><a routerLink="/services" [queryParams]="{filter: 'plans'}">Health plans</a></li>
+          <li><a routerLink="/about">Blog</a></li>
+          <li><a routerLink="/grooming">Gallery</a></li>
+          <li><a routerLink="/about">Careers</a></li>
+          <li><a routerLink="/emergency">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Contact -->
+      <div class="footer-col col-contact">
+        <h4 class="col-title">Contact us</h4>
+        <ul class="contact-list">
+          <li class="contact-item">
+            <app-icon name="map-pin" size="16" color="#BFE3D1"></app-icon>
+            <a href="https://www.google.com/maps/place/SuperVets+Pet+Clinic+and+Spa+(24%2F7+emergency+services)/@17.7381086,83.3116259,17z/data=!3m1!4b1!4m6!3m5!1s0x3a39430768c5cd15:0x931fe4facfa909d3!8m2!3d17.7381086!4d83.3116259!16s%2Fg%2F11x76n5_qg?entry=ttu&g_ep=EgoyMDI2MDkxNi4wIKXMDSoASAFQAw%3D%3D"
+              target="_blank" rel="noopener noreferrer">
+              TPT Colony, P & T Colony, Balayya Sastri Layout, Seethammadara, Visakhapatnam, Andhra Pradesh 530013
+            </a>
+          </li>
+          <li class="contact-item">
+            <app-icon name="phone" size="16" color="#BFE3D1"></app-icon>
+            <a href="tel:+917842626060">078426 26060</a>
+          </li>
+          <li class="contact-item">
+            <app-icon name="clock" size="16" color="#BFE3D1"></app-icon>
+            <span>Open 24 hours</span>
+          </li>
+          <li class="contact-item">
+            <app-icon name="mail" size="16" color="#BFE3D1"></app-icon>
+            <a href="mailto:care@supervet.in">care&#64;supervet.in</a>
+          </li>
+        </ul>
+
+        <a routerLink="/emergency" class="emergency-link">
+          <span class="pulse"></span>
+          24/7 emergency care
+        </a>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="footer-bottom">
+      <p class="copyright">© 2026 SuperVets. All rights reserved.</p>
+      <p class="tagline">Happy pets, healthy lives.</p>
+      <div class="legal-links">
+        <a routerLink="/about">Privacy policy</a>
+        <a routerLink="/about">Terms and conditions</a>
+      </div>
+    </div>
+  </div>
+</footer>

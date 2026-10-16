@@ -1,0 +1,113 @@
+@if (authService.isAuthModalOpen()) {
+  <div class="modal-backdrop" (click)="authService.closeAuth()"></div>
+  <div class="modal-container" role="dialog" aria-modal="true">
+    <button class="modal-close" (click)="authService.closeAuth()" aria-label="Close modal">
+      <app-icon name="x" size="20" color="#64748B"></app-icon>
+    </button>
+
+    <div class="modal-header">
+      <div class="brand-badge">
+        <app-icon name="heart-pulse" size="20" color="#EF3340"></app-icon>
+        <span>SuperVet Parent Portal</span>
+      </div>
+      <h2>{{ authService.authMode() === 'login' ? 'Welcome Back!' : 'Create Pet Parent Account' }}</h2>
+      <p>
+        {{
+          authService.authMode() === 'login'
+            ? 'Access your pet medical history, vaccination reminders & appointments.'
+            : 'Join Hyderabad’s premier 24/7 pet hospital and ecosystem.'
+        }}
+      </p>
+    </div>
+
+    <div class="auth-tabs">
+      <button
+        [class.active]="authService.authMode() === 'login'"
+        (click)="authService.authMode.set('login')"
+      >
+        Sign In
+      </button>
+      <button
+        [class.active]="authService.authMode() === 'register'"
+        (click)="authService.authMode.set('register')"
+      >
+        New Registration
+      </button>
+    </div>
+
+    @if (authService.authMode() === 'login') {
+      <form class="auth-form" (submit)="onLogin($event)">
+        <div class="form-group">
+          <label>Email Address or Mobile</label>
+          <input
+            type="text"
+            [(ngModel)]="loginEmail"
+            name="loginEmail"
+            placeholder="e.g. ganesh@supervet.com or 9876543210"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label>Password / OTP</label>
+          <input
+            type="password"
+            [(ngModel)]="loginPassword"
+            name="loginPassword"
+            placeholder="Enter password (any demo password)"
+            required
+          />
+        </div>
+        <div class="form-helper">
+          <label class="remember-check">
+            <input type="checkbox" checked />
+            <span>Keep me signed in</span>
+          </label>
+          <a href="javascript:void(0)" class="forgot-link">Forgot Password?</a>
+        </div>
+        <button type="submit" class="btn btn-primary submit-btn">
+          Sign In to SuperVet
+        </button>
+      </form>
+    } @else {
+      <form class="auth-form" (submit)="onRegister($event)">
+        <div class="form-group">
+          <label>Pet Parent Name</label>
+          <input
+            type="text"
+            [(ngModel)]="regName"
+            name="regName"
+            placeholder="e.g. Rahul Verma"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input
+            type="email"
+            [(ngModel)]="regEmail"
+            name="regEmail"
+            placeholder="e.g. rahul@example.com"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label>Phone Number (for SMS & WhatsApp reminders)</label>
+          <input
+            type="tel"
+            [(ngModel)]="regPhone"
+            name="regPhone"
+            placeholder="+91 98765 00000"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary submit-btn">
+          Create My Account
+        </button>
+      </form>
+    }
+
+    <div class="auth-footer-note">
+      <span>🔒 256-Bit Encrypted & Compliant Veterinary Records</span>
+    </div>
+  </div>
+}

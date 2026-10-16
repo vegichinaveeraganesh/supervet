@@ -1,0 +1,182 @@
+// ═══════════════════════════════════════════════════════════════
+// SuperVet Design System — Typography
+// ═══════════════════════════════════════════════════════════════
+@use 'variables' as *;
+
+// ─── Heading Styles ──────────────────────────────────────────
+.heading-1 {
+  font-family: $font-primary;
+  font-size: $font-size-5xl;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+  letter-spacing: $letter-spacing-tight;
+  color: $text-primary;
+
+  @media (max-width: $breakpoint-lg) {
+    font-size: $font-size-4xl;
+  }
+
+  @media (max-width: $breakpoint-md) {
+    font-size: $font-size-3xl;
+  }
+}
+
+.heading-2 {
+  font-family: $font-primary;
+  font-size: $font-size-4xl;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+  letter-spacing: $letter-spacing-tight;
+  color: $text-primary;
+
+  @media (max-width: $breakpoint-md) {
+    font-size: $font-size-2xl;
+  }
+}
+
+.heading-3 {
+  font-family: $font-primary;
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-snug;
+  color: $text-primary;
+
+  @media (max-width: $breakpoint-md) {
+    font-size: $font-size-xl;
+  }
+}
+
+.heading-4 {
+  font-family: $font-primary;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-snug;
+  color: $text-primary;
+}
+
+.heading-5 {
+  font-family: $font-primary;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-snug;
+  color: $text-primary;
+}
+
+.heading-6 {
+  font-family: $font-primary;
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-normal;
+  color: $text-primary;
+}
+
+// ─── Body Text ───────────────────────────────────────────────
+.body-lg {
+  font-family: $font-secondary;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-regular;
+  line-height: $line-height-relaxed;
+  color: $text-secondary;
+}
+
+.body-md {
+  font-family: $font-secondary;
+  font-size: $font-size-base;
+  font-weight: $font-weight-regular;
+  line-height: $line-height-relaxed;
+  color: $text-secondary;
+}
+
+.body-sm {
+  font-family: $font-secondary;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-regular;
+  line-height: $line-height-normal;
+  color: $text-muted;
+}
+
+// ─── Label Styles ────────────────────────────────────────────
+.label {
+  font-family: $font-secondary;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  line-height: $line-height-normal;
+  color: $text-secondary;
+}
+
+.label-sm {
+  font-family: $font-secondary;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  line-height: $line-height-normal;
+  color: $text-muted;
+  text-transform: uppercase;
+  letter-spacing: $letter-spacing-wider;
+}
+
+// ─── Display Text ────────────────────────────────────────────
+.display-xl {
+  font-family: $font-primary;
+  font-size: $font-size-6xl;
+  font-weight: $font-weight-extrabold;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: $text-primary;
+
+  @media (max-width: $breakpoint-lg) {
+    font-size: $font-size-5xl;
+  }
+
+  @media (max-width: $breakpoint-md) {
+    font-size: $font-size-3xl;
+  }
+}
+
+// ─── Gradient Text ───────────────────────────────────────────
+.gradient-text-blue {
+  background: linear-gradient(135deg, $primary-blue, $deep-blue);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-red {
+  background: linear-gradient(135deg, $accent-red, $red-600);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+// ─── Section Subtitle ───────────────────────────────────────
+.section-subtitle {
+  font-family: $font-secondary;
+  font-size: $font-size-md;
+  font-weight: $font-weight-regular;
+  line-height: $line-height-relaxed;
+  color: $text-secondary;
+  max-width: 640px;
+
+  @media (max-width: $breakpoint-md) {
+    font-size: $font-size-base;
+  }
+}
+
+// ─── Tag / Chip ──────────────────────────────────────────────
+.tag {
+  font-family: $font-secondary;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  letter-spacing: $letter-spacing-wide;
+  text-transform: uppercase;
+  color: $primary-blue;
+  background: $light-blue;
+  padding: 4px 12px;
+  border-radius: $radius-full;
+  display: inline-block;
+}
+
+.tag-red {
+  @extend .tag;
+  color: $accent-red;
+  background: $soft-red;
+}

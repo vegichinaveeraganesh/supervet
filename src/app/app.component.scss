@@ -1,0 +1,17 @@
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #F8FBFE;
+}
+
+.main-content {
+  flex: 1;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding-bottom: 64px; // Reserve space for sticky mobile bottom bar
+  }
+}

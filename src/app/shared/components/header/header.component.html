@@ -1,0 +1,117 @@
+<header class="main-header" [class.is-scrolled]="isScrolled">
+
+  <!-- TOP EMERGENCY BAR (collapses on scroll) -->
+  <div class="topbar">
+    <div class="header-shell topbar-inner">
+      <span class="topbar-msg"><i class="live"></i> 24/7 emergency & ICU care — always open</span>
+      <a href="tel:+917842626060" class="topbar-call">
+        <app-icon name="phone" size="15" color="currentColor"></app-icon>
+        +91 78426 26060
+      </a>
+    </div>
+  </div>
+
+  <!-- MAIN NAVIGATION -->
+  <div class="navigation-surface">
+    <div class="header-shell navigation-inner">
+
+      <a routerLink="/" class="brand" aria-label="SuperVets Home" (click)="closeMenus()">
+        <img src="logo.jpg" alt="SuperVets Pet Clinic & Spa" class="brand-logo" />
+      </a>
+
+      <nav class="desktop-nav" aria-label="Main navigation">
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+          class="nav-item">Home</a>
+        <a routerLink="/about" routerLinkActive="active" class="nav-item">About</a>
+        <a routerLink="/services" routerLinkActive="active" class="nav-item">Services</a>
+        <a routerLink="/doctors" routerLinkActive="active" class="nav-item">Doctors</a>
+        <a routerLink="/grooming" routerLinkActive="active" class="nav-item">Grooming</a>
+        <a routerLink="/store" routerLinkActive="active" class="nav-item">Pet Store</a>
+        <a routerLink="/emergency" class="nav-item">Contact</a>
+      </nav>
+
+      <div class="header-actions">
+
+        <button type="button" class="icon-action search-action" [class.selected]="searchOpen" (click)="toggleSearch()"
+          [attr.aria-expanded]="searchOpen" aria-label="Search" title="Search services and doctors">
+          <app-icon [name]="searchOpen ? 'x' : 'search'" size="21" color="currentColor"></app-icon>
+        </button>
+
+        <button type="button" class="icon-action cart-action" (click)="cartService.toggleDrawer()"
+          aria-label="Open shopping cart">
+          <app-icon name="shopping-bag" size="21" color="currentColor"></app-icon>
+          @if (cartService.itemCount() > 0) {
+          <span class="cart-counter">{{ cartService.itemCount() }}</span>
+          }
+        </button>
+
+        <button type="button" class="appointment-button" (click)="aptService.openQuickBook()">
+          <app-icon name="calendar-check" size="19" color="currentColor"></app-icon>
+          <span>Book Appointment</span>
+        </button>
+
+        <button type="button" class="mobile-toggle" (click)="toggleMobileMenu()" [attr.aria-expanded]="mobileMenuOpen"
+          aria-label="Toggle navigation">
+          <app-icon [name]="mobileMenuOpen ? 'x' : 'menu'" size="23" color="currentColor"></app-icon>
+        </button>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPANDABLE SEARCH -->
+  @if (searchOpen) {
+  <div class="header-search-panel">
+    <div class="header-shell">
+      <div class="search-field">
+        <app-icon name="search" size="21" color="#0B4A44"></app-icon>
+        <input type="search" [(ngModel)]="searchQuery" (keyup.enter)="onSearch()"
+          placeholder="Search services, doctors, grooming..." aria-label="Search SuperVets" />
+        <button type="button" class="search-submit" (click)="onSearch()">
+          Search
+          <app-icon name="arrow-right" size="16" color="currentColor"></app-icon>
+        </button>
+        <button type="button" class="search-close" (click)="searchOpen = false" aria-label="Close search">
+          <app-icon name="x" size="18" color="currentColor"></app-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  }
+
+  <!-- MOBILE NAVIGATION -->
+  @if (mobileMenuOpen) {
+  <div class="mobile-nav-panel">
+    <nav class="mobile-nav-links" aria-label="Mobile navigation">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMenus()">
+        <app-icon name="house" size="19" color="currentColor"></app-icon>Home</a>
+      <a routerLink="/about" routerLinkActive="active" (click)="closeMenus()">
+        <app-icon name="heart-handshake" size="19" color="currentColor"></app-icon>About Us</a>
+      <a routerLink="/services" routerLinkActive="active" (click)="closeMenus()">
+        <app-icon name="stethoscope" size="19" color="currentColor"></app-icon>Our Services</a>
+      <a routerLink="/doctors" routerLinkActive="active" (click)="closeMenus()">
+        <app-icon name="users" size="19" color="currentColor"></app-icon>Our Doctors</a>
+      <a routerLink="/grooming" routerLinkActive="active" (click)="closeMenus()">
+        <app-icon name="scissors" size="19" color="currentColor"></app-icon>Grooming & Spa</a>
+      <a routerLink="/store" routerLinkActive="active" (click)="closeMenus()">
+        <app-icon name="shopping-bag" size="19" color="currentColor"></app-icon>Pet Store</a>
+
+    
+      <a routerLink="/emergency" (click)="closeMenus()">
+        <app-icon name="phone" size="19" color="currentColor"></app-icon>Contact</a>
+    </nav>
+
+    <div class="mobile-nav-footer">
+      <button type="button" class="mobile-book-button" (click)="bookFromMobile()">
+        <app-icon name="calendar-check" size="19" color="currentColor"></app-icon>
+        Book Appointment
+      </button>
+      <a href="tel:+917842626060" class="mobile-call">
+        <app-icon name="phone" size="18" color="currentColor"></app-icon>
+        Emergency: +91 78426 26060
+      </a>
+    </div>
+  </div>
+  }
+
+</header>

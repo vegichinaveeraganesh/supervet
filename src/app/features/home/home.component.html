@@ -1,0 +1,328 @@
+<main class="home">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="pill rise" style="--d:.05s"><i class="live"></i> Super speciality veterinary hospital · Open 24/7</span>
+        <h1 class="rise" style="--d:.15s">
+          Better care.<br>
+          <em>Brighter lives.</em><br>
+          Happier pets.
+        </h1>
+        <p class="lead rise" style="--d:.3s">
+          Because they're family. From everyday wellness to advanced surgery,
+          our specialists look after every paw, every day.
+        </p>
+
+        <div class="hero-actions rise" style="--d:.42s">
+          <button type="button" class="btn btn-coral" (click)="aptService.openQuickBook()">
+            <app-icon name="calendar" size="19" color="#FFFFFF"></app-icon>
+            Book an appointment
+          </button>
+          <a routerLink="/services" class="btn btn-ghost">
+            Explore services
+            <app-icon name="arrow-right" size="18" color="#0B4A44"></app-icon>
+          </a>
+        </div>
+
+        <div class="trust rise" style="--d:.55s">
+          <div><app-icon name="shield-check" size="22" color="#0B4A44"></app-icon><span>Experienced<br>surgeons</span></div>
+          <div><app-icon name="heart-pulse" size="22" color="#0B4A44"></app-icon><span>Advanced<br>ICU care</span></div>
+          <div><app-icon name="clock" size="22" color="#0B4A44"></app-icon><span>24/7<br>emergency</span></div>
+        </div>
+      </div>
+
+      <div class="hero-visual rise" style="--d:.25s">
+        <div class="arch"></div>
+        <div class="orbit"></div>
+        <img src="hero-pets-transparent.png" alt="Happy dog, cat and rabbit" class="hero-pets" fetchpriority="high">
+
+        <div class="float-card fc-one">
+          <app-icon name="heart" size="22" color="#F25C3B"></app-icon>
+          <div><strong>Care with heart</strong><span>Every pet. Every visit.</span></div>
+        </div>
+        <div class="float-card fc-two">
+          <b>24/7</b>
+          <span>Emergency<br>& ICU</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      @for (n of [1,2]; track n) {
+        @for (s of species; track s) {
+          <span>{{ s }}</span><i>🐾</i>
+        }
+      }
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section class="section" id="services">
+    <div class="wrap">
+      <div class="head" appScrollReveal>
+        <div>
+          <span class="label">Our services</span>
+          <h2>Everything they need.<br>All under one roof.</h2>
+        </div>
+        <a routerLink="/services" class="link">Explore all services <span>→</span></a>
+      </div>
+
+      <div class="services-grid">
+        @for (service of services; track service.title; let i = $index) {
+          <a [routerLink]="service.route" class="service-card" [attr.aria-label]="service.title"
+             appScrollReveal [style.transition-delay.ms]="(i % 4) * 80">
+            <img [src]="service.cardImage" [alt]="service.title" loading="lazy">
+          </a>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="wrap stats-grid">
+      @for (s of stats; track s.label) {
+        <div class="stat" appScrollReveal>
+          <strong>{{ s.value }}</strong>
+          <span>{{ s.label }}</span>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section about">
+    <div class="wrap about-grid">
+      <div class="about-photo" appScrollReveal>
+        <img src="/images/why-pets.jpg" alt="Pets receiving compassionate care" loading="lazy">
+        <div class="photo-tag">
+          <app-icon name="heart" size="19" color="#F25C3B"></app-icon>
+          Caring for pets like family
+        </div>
+      </div>
+
+      <div appScrollReveal>
+        <span class="label">The SuperVet difference</span>
+        <h2>Medicine with expertise.<br>Care with heart.</h2>
+        <p class="sub">
+          Attentive veterinary professionals, modern diagnostics and a calm,
+          reassuring space — so your pet feels safe and you feel informed.
+        </p>
+
+        <div class="care-grid">
+          @for (item of careHighlights; track item.title) {
+            <div class="care-tile">
+              <span class="ic"><app-icon [name]="item.icon" size="22" color="#0B4A44"></app-icon></span>
+              <h3>{{ item.title }}</h3>
+              <p>{{ item.text }}</p>
+            </div>
+          }
+        </div>
+
+        <a routerLink="/about" class="btn btn-forest">
+          Discover SuperVet
+          <app-icon name="arrow-right" size="18" color="#FFFFFF"></app-icon>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOCTORS -->
+  <section class="section doctors">
+    <div class="wrap">
+      <div class="head" appScrollReveal>
+        <div>
+          <span class="label">Meet the team</span>
+          <h2>Trusted hands.<br>Kind hearts.</h2>
+          <p class="sub">The veterinary professionals caring for your companions.</p>
+        </div>
+        <a routerLink="/doctors" class="link">Meet all doctors <span>→</span></a>
+      </div>
+
+      <div class="doctors-grid">
+        @for (doc of featuredDoctors; track doc.id; let i = $index) {
+          <article class="doctor-card" appScrollReveal [style.transition-delay.ms]="i * 90">
+            <div class="doctor-photo">
+              <img [src]="doc.photo" [alt]="doc.name" loading="lazy">
+              @if (doc.isEmergencyDoctor) { <span class="badge">Emergency team</span> }
+              <button type="button" class="doctor-book" (click)="aptService.openQuickBook(undefined, doc.name)">
+                Book appointment
+                <app-icon name="arrow-right" size="16" color="#FFFFFF"></app-icon>
+              </button>
+            </div>
+            <div class="doctor-body">
+              <span class="spec">{{ doc.primarySpecialty }}</span>
+              <h3>{{ doc.name }}</h3>
+              <p>{{ doc.experienceText }}</p>
+              <div class="tags">
+                @for (spec of doc.specialties.slice(0, 2); track spec) { <span>{{ spec }}</span> }
+              </div>
+            </div>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="section process">
+    <div class="wrap">
+      <div class="head center" appScrollReveal>
+        <div>
+          <span class="label">How a visit works</span>
+          <h2>Simple from the first call<br>to the follow-up.</h2>
+        </div>
+      </div>
+      <ol class="steps">
+        @for (st of steps; track st.title; let i = $index) {
+          <li appScrollReveal [style.transition-delay.ms]="i * 110">
+            <span class="num">{{ i + 1 }}</span>
+            <h3>{{ st.title }}</h3>
+            <p>{{ st.text }}</p>
+          </li>
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- GROOMING -->
+  <section class="section grooming">
+    <div class="wrap">
+      <div class="grooming-box" appScrollReveal>
+        <div class="grooming-copy">
+          <span class="label light">Grooming & wellness</span>
+          <h2>A little pampering.<br>A lot of love.</h2>
+          <p>Gentle grooming for clean coats, healthy skin and happy tails.</p>
+          <div class="chips">
+            <span>Bath & blow dry</span><span>Haircut & styling</span><span>Nail trimming</span>
+            <span>Ear cleaning</span><span>Paw care</span><span>Full grooming</span>
+          </div>
+          <button type="button" class="btn btn-coral" (click)="aptService.openQuickBook('Pet Grooming & Spa')">
+            Book grooming
+            <app-icon name="arrow-right" size="18" color="#FFFFFF"></app-icon>
+          </button>
+        </div>
+        <div class="grooming-img">
+          <img src="/images/grooming-hero.jpg" alt="Pet enjoying professional grooming" loading="lazy">
+          <span>Fresh looks, happy paws ✨</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORE -->
+  <section class="section store">
+    <div class="wrap">
+      <div class="head" appScrollReveal>
+        <div>
+          <span class="label">Pharmacy & pet store</span>
+          <h2>Good things for<br>good companions.</h2>
+          <p class="sub">Nutrition, health essentials and everyday favourites.</p>
+        </div>
+        <a routerLink="/store" class="link">Visit pet store <span>→</span></a>
+      </div>
+
+      <div class="store-grid">
+        <div class="store-intro" appScrollReveal>
+          <app-icon name="shopping-bag" size="34" color="#E9B24C"></app-icon>
+          <h3>Care doesn't stop at the clinic.</h3>
+          <p>Products chosen by our doctors for your pet's daily wellbeing.</p>
+          <a routerLink="/store" class="link light">Shop now <span>→</span></a>
+        </div>
+
+        @for (product of featuredProducts; track product.id; let i = $index) {
+          <article class="product-card" appScrollReveal [style.transition-delay.ms]="(i + 1) * 90">
+            <div class="product-photo">
+              <img [src]="product.images[0] || '/images/prod-royal-canin.jpg'" [alt]="product.name" loading="lazy">
+            </div>
+            <h3>{{ product.name }}</h3>
+            <div class="price">
+              <strong>₹{{ product.price }}</strong>
+              @if (product.originalPrice) { <del>₹{{ product.originalPrice }}</del> }
+            </div>
+            <button type="button" class="add-cart" (click)="cartService.addToCart(product)">
+              <app-icon name="shopping-bag" size="17" color="#FFFFFF"></app-icon>
+              Add to cart
+            </button>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section testimonials">
+    <div class="wrap">
+      <div class="head" appScrollReveal>
+        <div>
+          <span class="label">Pet parent stories</span>
+          <h2>Love from our<br>pet community.</h2>
+        </div>
+        <div class="slider-controls">
+          <button type="button" aria-label="Previous testimonials" (click)="moveTestimonials(-1)">
+            <app-icon name="chevron-left" size="20" color="#0B4A44"></app-icon>
+          </button>
+          <button type="button" aria-label="Next testimonials" (click)="moveTestimonials(1)">
+            <app-icon name="chevron-right" size="20" color="#0B4A44"></app-icon>
+          </button>
+        </div>
+      </div>
+
+      <div class="t-grid">
+        @for (t of activeTestimonials; track t.id) {
+          <article class="t-card">
+            <div class="quote">“</div>
+            <p>{{ t.text }}</p>
+            <div class="author">
+              <img [src]="t.avatar" [alt]="t.name" loading="lazy">
+              <div><strong>{{ t.name }}</strong><span>{{ t.petType }}</span></div>
+            </div>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ + EMERGENCY -->
+  <section class="section faq">
+    <div class="wrap faq-grid">
+      <div appScrollReveal>
+        <span class="label">Here to help</span>
+        <h2>Questions?<br>We've got answers.</h2>
+        <p class="sub">Helpful information for a smoother visit.</p>
+
+        <div class="faq-list">
+          @for (faq of faqs; track faq.question; let i = $index) {
+            <div class="faq-item" [class.open]="faq.isOpen">
+              <button type="button" [attr.aria-expanded]="faq.isOpen" (click)="toggleFaq(i)">
+                <span>{{ faq.question }}</span>
+                <app-icon [name]="faq.isOpen ? 'minus' : 'plus'" size="19" color="#0B4A44"></app-icon>
+              </button>
+              <div class="faq-answer"><p>{{ faq.answer }}</p></div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <aside class="emergency" appScrollReveal>
+        <span class="e-pill"><i class="live"></i> 24/7 emergency care</span>
+        <app-icon name="heart-pulse" size="40" color="#E9B24C"></app-icon>
+        <h2>When every second matters, we're here.</h2>
+        <p>For accidents, poisoning, seizures, breathing trouble or any urgent symptom, call our team right away.</p>
+        <a href="tel:+917842626060" class="e-call">
+          <app-icon name="phone" size="19" color="#F25C3B"></app-icon>
+          Call +91 78426 26060
+        </a>
+        <a class="e-dir" href="https://www.google.com/maps/search/?api=1&query=SuperVets+Pet+Clinic+and+Spa+Visakhapatnam"
+           target="_blank" rel="noopener noreferrer">Get directions ↗</a>
+        <small>Emergency cases are triaged by the clinical team.</small>
+      </aside>
+    </div>
+  </section>
+
+</main>

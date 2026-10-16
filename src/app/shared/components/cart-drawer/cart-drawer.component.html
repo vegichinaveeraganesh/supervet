@@ -1,0 +1,90 @@
+@if (cartService.isDrawerOpen()) {
+  <div class="drawer-backdrop" (click)="cartService.closeDrawer()"></div>
+  <div class="cart-drawer">
+    <div class="drawer-header">
+      <div class="header-left">
+        <app-icon name="shopping-bag" size="22" color="#1261A8"></app-icon>
+        <h3>Pet Store Cart ({{ cartService.itemCount() }})</h3>
+      </div>
+      <button class="close-btn" (click)="cartService.closeDrawer()" aria-label="Close cart">
+        <app-icon name="x" size="20" color="#64748B"></app-icon>
+      </button>
+    </div>
+
+    <div class="drawer-body">
+      @if (cartService.items().length === 0) {
+        <div class="empty-cart">
+          <div class="empty-icon-circle">
+            <app-icon name="shopping-bag" size="48" color="#94A3B8"></app-icon>
+          </div>
+          <h4>Your Pet Store Cart is Empty</h4>
+          <p>Explore prescription diets, supplements, grooming products, and pet essentials.</p>
+          <button class="btn btn-primary shop-now-btn" (click)="goToStore()">
+            Explore Pet Store
+          </button>
+        </div>
+      } @else {
+        <div class="cart-items-list">
+          @for (item of cartService.items(); track item.product.id) {
+            <div class="cart-card">
+              <div class="item-img-wrap">
+                @if (item.product.images && item.product.images[0]) {
+                  <img [src]="item.product.images[0]" [alt]="item.product.name" />
+                } @else {
+                  <div class="img-placeholder">
+                    <app-icon name="shopping-bag" size="24" color="#1261A8"></app-icon>
+                  </div>
+                }
+              </div>
+              <div class="item-info">
+                <div class="item-top">
+                  <span class="item-brand">{{ item.product.brand }}</span>
+                  <button class="remove-item-btn" (click)="cartService.removeFromCart(item.product.id)" aria-label="Remove item">
+                    <app-icon name="trash" size="15" color="#EF3340"></app-icon>
+                  </button>
+                </div>
+                <h5 class="item-name">{{ item.product.name }}</h5>
+                <div class="item-bottom">
+                  <div class="item-price">₹{{ item.product.price * item.quantity }}</div>
+                  <div class="qty-stepper">
+                    <button (click)="cartService.updateQuantity(item.product.id, item.quantity - 1)" aria-label="Decrease quantity">-</button>
+                    <span>{{ item.quantity }}</span>
+                    <button (click)="cartService.updateQuantity(item.product.id, item.quantity + 1)" aria-label="Increase quantity">+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    @if (cartService.items().length > 0) {
+      <div class="drawer-footer">
+        <div class="bill-row">
+          <span>Subtotal</span>
+          <span>₹{{ cartService.subtotal() }}</span>
+        </div>
+        @if (cartService.discount() > 0) {
+          <div class="bill-row discount-row">
+            <span>Special Promo Discount (10%)</span>
+            <span>-₹{{ cartService.discount() }}</span>
+          </div>
+        }
+        <div class="bill-row">
+          <span>Delivery Charges</span>
+          <span>{{ cartService.deliveryFee() === 0 ? 'FREE' : '₹' + cartService.deliveryFee() }}</span>
+        </div>
+        <div class="bill-row total-row">
+          <span>Total Payable</span>
+          <span>₹{{ cartService.total() }}</span>
+        </div>
+
+        <button class="btn btn-primary checkout-btn" (click)="proceedToCheckout()">
+          <span>Proceed to Checkout</span>
+          <app-icon name="arrow-right" size="18" color="#FFFFFF"></app-icon>
+        </button>
+      </div>
+    }
+  </div>
+}

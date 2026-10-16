@@ -1,0 +1,82 @@
+@if (aptService.isQuickBookOpen()) {
+<div class="modal-backdrop" (click)="aptService.closeQuickBook()"></div>
+<div class="modal-container" role="dialog" aria-modal="true" aria-labelledby="qb-title">
+  <button type="button" class="modal-close" (click)="aptService.closeQuickBook()" aria-label="Close booking form">
+    <app-icon name="x" size="18" color="#0F3D33"></app-icon>
+  </button>
+
+  <header class="modal-header">
+    <h2 id="qb-title">Book an <em>appointment</em></h2>
+    <p>Pick a service, a doctor and a time. We confirm instantly by SMS and WhatsApp.</p>
+  </header>
+
+  <form class="book-form" (submit)="onSubmit($event)">
+    <fieldset class="form-group">
+      <legend>Pet type</legend>
+      <div class="chips">
+        @for (sp of species; track sp.value) {
+        <button type="button" class="chip" [class.active]="petSpecies === sp.value"
+          [attr.aria-pressed]="petSpecies === sp.value" (click)="petSpecies = sp.value">
+          <span aria-hidden="true">{{ sp.emoji }}</span>{{ sp.label }}
+        </button>
+        }
+      </div>
+    </fieldset>
+
+    <div class="form-group">
+      <label for="qb-name">Pet name</label>
+      <input id="qb-name" type="text" [(ngModel)]="petName" name="petName" placeholder="e.g. Bruno" required />
+    </div>
+
+    <div class="form-group">
+      <label for="qb-service">Service</label>
+      <select id="qb-service" [(ngModel)]="selectedService" name="selectedService" (change)="onServiceChange()">
+        @for (svc of serviceService.getServices(); track svc.id) {
+        <option [value]="svc.name">{{ svc.name }} ({{ svc.category }})</option>
+        }
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="qb-doctor">Doctor</label>
+      <select id="qb-doctor" [(ngModel)]="selectedDoctor" name="selectedDoctor">
+        <option value="Any Available Specialist">Any available specialist (fastest)</option>
+        @for (doc of doctorService.getDoctors(); track doc.id) {
+        <option [value]="doc.name">{{ doc.name }} – {{ doc.primarySpecialty }} (₹{{ doc.consultationFee }})</option>
+        }
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="qb-date">Date</label>
+      <input id="qb-date" type="date" [(ngModel)]="bookDate" name="bookDate" [min]="todayDate" required />
+    </div>
+
+    <fieldset class="form-group">
+      <legend>Time slot</legend>
+      <div class="chips slots">
+        @for (slot of timeSlots; track slot) {
+        <button type="button" class="chip" [class.active]="timeSlot === slot" [attr.aria-pressed]="timeSlot === slot"
+          (click)="timeSlot = slot">{{ slot }}</button>
+        }
+      </div>
+    </fieldset>
+
+    <div class="form-group">
+      <label for="qb-notes">Reason or symptoms <span class="opt">(optional)</span></label>
+      <textarea id="qb-notes" [(ngModel)]="notes" name="notes" rows="2"
+        placeholder="Symptoms, vaccination needs or anything we should know"></textarea>
+    </div>
+
+    <div class="form-actions">
+      <p class="guarantee">
+        <app-icon name="shield" size="16" color="#1E8E5A"></app-icon>
+        Instant SMS and WhatsApp confirmation
+      </p>
+      <button type="submit" class="submit-btn" [disabled]="!petName.trim() || !bookDate">
+        Confirm appointment
+      </button>
+    </div>
+  </form>
+</div>
+}

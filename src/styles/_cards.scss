@@ -1,0 +1,503 @@
+// ═══════════════════════════════════════════════════════════════
+// SuperVet Design System — Cards
+// ═══════════════════════════════════════════════════════════════
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// ─── Base Card ───────────────────────────────────────────────
+.card {
+  @include card-base;
+  @include card-hover;
+}
+
+// ─── Bento Card ──────────────────────────────────────────────
+.bento-card {
+  @include bento-card;
+  @include flex-column;
+  gap: $space-4;
+
+  .bento-card__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: $radius-lg;
+    @include flex-center;
+    background: $light-blue;
+    color: $primary-blue;
+    flex-shrink: 0;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .bento-card__title {
+    font-family: $font-primary;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+  }
+
+  .bento-card__description {
+    font-family: $font-secondary;
+    font-size: $font-size-sm;
+    color: $text-secondary;
+    line-height: $line-height-relaxed;
+  }
+
+  &.bento-card--red {
+    .bento-card__icon {
+      background: $soft-red;
+      color: $accent-red;
+    }
+  }
+
+  &.bento-card--featured {
+    @include gradient-blue;
+    color: $white;
+    border-color: transparent;
+
+    .bento-card__icon {
+      background: rgba(255, 255, 255, 0.15);
+      color: $white;
+    }
+
+    .bento-card__title {
+      color: $white;
+    }
+
+    .bento-card__description {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    &:hover {
+      border-color: transparent;
+      box-shadow: $shadow-blue;
+    }
+  }
+}
+
+// ─── Service Card ────────────────────────────────────────────
+.service-card {
+  @include card-interactive;
+  @include flex-column;
+  align-items: center;
+  text-align: center;
+  gap: $space-4;
+  padding: $space-8 $space-6;
+
+  .service-card__icon {
+    width: 64px;
+    height: 64px;
+    border-radius: $radius-2xl;
+    @include flex-center;
+    background: $light-blue;
+    color: $primary-blue;
+    transition: all $transition-base;
+
+    svg {
+      width: 32px;
+      height: 32px;
+      stroke-width: 1.5;
+    }
+  }
+
+  .service-card__title {
+    font-family: $font-primary;
+    font-size: $font-size-md;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+  }
+
+  .service-card__description {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+    line-height: $line-height-relaxed;
+    @include line-clamp(3);
+  }
+
+  &:hover {
+    .service-card__icon {
+      background: $primary-blue;
+      color: $white;
+      transform: scale(1.05);
+    }
+  }
+}
+
+// ─── Doctor Card ─────────────────────────────────────────────
+.doctor-card {
+  @include card-interactive;
+  @include flex-column;
+  overflow: hidden;
+  padding: 0;
+
+  .doctor-card__image {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    background: $light-blue;
+  }
+
+  .doctor-card__content {
+    padding: $space-5;
+    @include flex-column;
+    gap: $space-2;
+  }
+
+  .doctor-card__name {
+    font-family: $font-primary;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+  }
+
+  .doctor-card__specialty {
+    font-size: $font-size-sm;
+    color: $primary-blue;
+    font-weight: $font-weight-medium;
+  }
+
+  .doctor-card__qualification {
+    font-size: $font-size-xs;
+    color: $text-muted;
+  }
+
+  .doctor-card__meta {
+    @include flex-start;
+    gap: $space-4;
+    padding-top: $space-3;
+    border-top: 1px solid $gray-100;
+    margin-top: $space-2;
+
+    span {
+      font-size: $font-size-xs;
+      color: $text-secondary;
+      @include flex-start;
+      gap: $space-1;
+    }
+  }
+
+  .doctor-card__cta {
+    padding: $space-3 $space-5;
+    margin-top: $space-2;
+  }
+}
+
+// ─── Product Card ────────────────────────────────────────────
+.product-card {
+  @include card-interactive;
+  @include flex-column;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+
+  .product-card__badge {
+    position: absolute;
+    top: $space-3;
+    left: $space-3;
+    z-index: 2;
+  }
+
+  .product-card__wishlist {
+    position: absolute;
+    top: $space-3;
+    right: $space-3;
+    z-index: 2;
+    width: 36px;
+    height: 36px;
+    border-radius: $radius-full;
+    @include flex-center;
+    background: $white;
+    box-shadow: $shadow-sm;
+    color: $gray-400;
+    cursor: pointer;
+    transition: all $transition-base;
+    border: none;
+
+    &:hover,
+    &.active {
+      color: $accent-red;
+      transform: scale(1.1);
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  .product-card__image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background: $gray-50;
+    transition: transform $transition-slow;
+  }
+
+  &:hover .product-card__image {
+    transform: scale(1.05);
+  }
+
+  .product-card__content {
+    padding: $space-4;
+    @include flex-column;
+    gap: $space-2;
+  }
+
+  .product-card__category {
+    font-size: $font-size-xs;
+    color: $primary-blue;
+    font-weight: $font-weight-medium;
+    text-transform: uppercase;
+    letter-spacing: $letter-spacing-wider;
+  }
+
+  .product-card__name {
+    font-family: $font-primary;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+    @include line-clamp(2);
+  }
+
+  .product-card__price {
+    @include flex-start;
+    gap: $space-2;
+    align-items: baseline;
+
+    .price-current {
+      font-family: $font-primary;
+      font-size: $font-size-lg;
+      font-weight: $font-weight-bold;
+      color: $text-primary;
+    }
+
+    .price-original {
+      font-size: $font-size-sm;
+      color: $text-muted;
+      text-decoration: line-through;
+    }
+
+    .price-discount {
+      font-size: $font-size-xs;
+      font-weight: $font-weight-semibold;
+      color: $success;
+    }
+  }
+
+  .product-card__rating {
+    @include flex-start;
+    gap: $space-1;
+
+    .stars {
+      color: $warning;
+    }
+
+    .count {
+      font-size: $font-size-xs;
+      color: $text-muted;
+    }
+  }
+}
+
+// ─── Grooming Card ───────────────────────────────────────────
+.grooming-card {
+  @include card-interactive;
+  @include flex-column;
+  align-items: center;
+  text-align: center;
+  gap: $space-4;
+  padding: $space-8 $space-6;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    @include gradient-blue;
+  }
+
+  .grooming-card__icon {
+    width: 72px;
+    height: 72px;
+    border-radius: $radius-full;
+    @include flex-center;
+    background: $light-blue;
+    color: $primary-blue;
+
+    svg {
+      width: 36px;
+      height: 36px;
+    }
+  }
+
+  .grooming-card__title {
+    font-family: $font-primary;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+  }
+
+  .grooming-card__price {
+    font-family: $font-primary;
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    color: $primary-blue;
+  }
+
+  .grooming-card__duration {
+    font-size: $font-size-sm;
+    color: $text-muted;
+  }
+}
+
+// ─── Testimonial Card ────────────────────────────────────────
+.testimonial-card {
+  @include card-base;
+  @include flex-column;
+  gap: $space-4;
+  position: relative;
+
+  &::before {
+    content: '"';
+    font-family: Georgia, serif;
+    font-size: 4rem;
+    color: $light-blue;
+    position: absolute;
+    top: $space-2;
+    left: $space-4;
+    line-height: 1;
+  }
+
+  .testimonial-card__text {
+    font-size: $font-size-base;
+    color: $text-secondary;
+    line-height: $line-height-relaxed;
+    font-style: italic;
+    padding-top: $space-6;
+  }
+
+  .testimonial-card__author {
+    @include flex-start;
+    gap: $space-3;
+    padding-top: $space-3;
+    border-top: 1px solid $gray-100;
+
+    img {
+      width: 44px;
+      height: 44px;
+      border-radius: $radius-full;
+      object-fit: cover;
+    }
+
+    .author-info {
+      .author-name {
+        font-weight: $font-weight-semibold;
+        color: $text-primary;
+        font-size: $font-size-sm;
+      }
+
+      .author-pet {
+        font-size: $font-size-xs;
+        color: $text-muted;
+      }
+    }
+  }
+}
+
+// ─── Plan Card ───────────────────────────────────────────────
+.plan-card {
+  @include card-base;
+  @include flex-column;
+  align-items: center;
+  text-align: center;
+  padding: $space-8 $space-6;
+  position: relative;
+  transition: all $transition-base;
+
+  &.plan-card--popular {
+    border-color: $primary-blue;
+    box-shadow: $shadow-blue;
+
+    &::before {
+      content: 'Most Popular';
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      @include badge($primary-blue, $white);
+    }
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-xl;
+  }
+}
+
+// ─── Stat Card ───────────────────────────────────────────────
+.stat-card {
+  @include flex-column-center;
+  text-align: center;
+  gap: $space-2;
+  padding: $space-6;
+
+  .stat-card__number {
+    font-family: $font-primary;
+    font-size: $font-size-4xl;
+    font-weight: $font-weight-bold;
+    color: $primary-blue;
+    line-height: 1;
+  }
+
+  .stat-card__label {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+    font-weight: $font-weight-medium;
+  }
+}
+
+// ─── Emergency Card ──────────────────────────────────────────
+.emergency-card {
+  @include card-base;
+  @include flex-start;
+  gap: $space-4;
+  border-left: 4px solid $accent-red;
+  padding: $space-5;
+  transition: all $transition-base;
+
+  &:hover {
+    box-shadow: $shadow-red;
+    transform: translateX(4px);
+  }
+
+  .emergency-card__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: $radius-lg;
+    @include flex-center;
+    background: $soft-red;
+    color: $accent-red;
+    flex-shrink: 0;
+  }
+
+  .emergency-card__content {
+    @include flex-column;
+    gap: $space-1;
+
+    .emergency-card__title {
+      font-weight: $font-weight-semibold;
+      color: $text-primary;
+    }
+
+    .emergency-card__description {
+      font-size: $font-size-sm;
+      color: $text-secondary;
+    }
+  }
+}

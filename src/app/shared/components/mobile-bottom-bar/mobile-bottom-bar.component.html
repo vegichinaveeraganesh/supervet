@@ -1,0 +1,40 @@
+<nav class="mobile-bottom-bar" aria-label="Mobile Navigation">
+  <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+    <app-icon name="home" size="20"></app-icon>
+    <span>Home</span>
+  </a>
+
+  <a routerLink="/services" routerLinkActive="active" class="nav-item">
+    <app-icon name="stethoscope" size="20"></app-icon>
+    <span>Services</span>
+  </a>
+
+  <button class="book-center-btn" (click)="aptService.openQuickBook()" aria-label="Book Appointment">
+    <div class="center-btn-inner">
+      <app-icon name="calendar" size="22" color="#FFFFFF"></app-icon>
+    </div>
+    <span>Book Apt</span>
+  </button>
+
+  <a routerLink="/store" routerLinkActive="active" class="nav-item">
+    <div class="icon-wrap">
+      <app-icon name="shopping-bag" size="20"></app-icon>
+      @if (cartService.itemCount() > 0) {
+        <span class="badge">{{ cartService.itemCount() }}</span>
+      }
+    </div>
+    <span>Store</span>
+  </a>
+
+  @if (authService.isAuthenticated()) {
+    <a routerLink="/dashboard" routerLinkActive="active" class="nav-item">
+      <app-icon name="user" size="20"></app-icon>
+      <span>Profile</span>
+    </a>
+  } @else {
+    <button class="nav-item btn-nav" (click)="authService.openAuth('login')">
+      <app-icon name="user" size="20"></app-icon>
+      <span>Login</span>
+    </button>
+  }
+</nav>
