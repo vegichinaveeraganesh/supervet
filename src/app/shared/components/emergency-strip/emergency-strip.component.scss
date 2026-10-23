@@ -124,6 +124,10 @@
   }
 }
 
+:host {
+  display: block;
+}
+
 @media (max-width: 900px) {
   .strip-content {
     flex-direction: column;
@@ -135,6 +139,13 @@
     justify-content: center;
   }
   .strip-text {
-    display: none; // Keep strip compact on mobile
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  :host,
+  .emergency-strip {
+    display: none !important;
   }
 }

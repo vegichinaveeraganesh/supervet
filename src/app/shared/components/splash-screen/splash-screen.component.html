@@ -1,0 +1,81 @@
+@if (isVisible) {
+<div 
+  class="splash-screen-overlay"
+  [class.is-fading-out]="isFadingOut"
+  role="dialog"
+  aria-modal="true"
+  aria-label="SuperVet Opening Intro"
+  (click)="dismiss()">
+
+  <!-- Ambient Glow Blobs -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+  <div class="ambient-glow glow-3"></div>
+
+  <!-- Subtle Floating Paw Background Accents -->
+  <div class="floating-paw paw-1" aria-hidden="true">🐾</div>
+  <div class="floating-paw paw-2" aria-hidden="true">🐾</div>
+  <div class="floating-paw paw-3" aria-hidden="true">🐾</div>
+  <div class="floating-paw paw-4" aria-hidden="true">🐾</div>
+
+  <!-- Skip Button -->
+  <button 
+    type="button" 
+    class="splash-skip-btn" 
+    (click)="dismiss(); $event.stopPropagation()"
+    aria-label="Skip introductory animation"
+    title="Skip intro">
+    <span>Skip</span>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+  </button>
+
+  <!-- Central Animation Core -->
+  <div class="splash-content" (click)="$event.stopPropagation()">
+
+    <!-- Concentric Ripple Waves -->
+    <div class="pulse-ring ring-1"></div>
+    <div class="pulse-ring ring-2"></div>
+    <div class="pulse-ring ring-3"></div>
+
+    <!-- Glowing Logo Card -->
+    <div class="logo-card">
+      <div class="logo-card-glow"></div>
+      
+      <!-- The Official SuperVets Logo -->
+      <div class="logo-image-wrapper">
+        <img 
+          src="logo.jpg" 
+          alt="SuperVets Pet Clinic & Spa Logo" 
+          class="splash-logo" />
+        <div class="shimmer-sweep"></div>
+      </div>
+    </div>
+
+    <!-- Animated ECG Heartbeat Line -->
+    <div class="ecg-container" aria-hidden="true">
+      <svg class="ecg-svg" viewBox="0 0 260 40" preserveAspectRatio="none">
+        <path class="ecg-path-bg" d="M 0,20 L 55,20 L 70,20 L 80,4 L 92,36 L 102,12 L 112,24 L 120,20 L 260,20" />
+        <path class="ecg-path-pulse" d="M 0,20 L 55,20 L 70,20 L 80,4 L 92,36 L 102,12 L 112,24 L 120,20 L 260,20" />
+      </svg>
+    </div>
+
+    <!-- Brand Tagline & Status -->
+    <div class="brand-text">
+      <div class="brand-badge">
+        <span class="live-indicator"></span>
+        <span>24/7 Super Specialty Care</span>
+      </div>
+      <p class="brand-subtitle">Advanced Healing • Loving Touch • Happy Pets</p>
+    </div>
+
+    <!-- Minimal Progress Loading Bar -->
+    <div class="loading-track">
+      <div class="loading-bar"></div>
+    </div>
+
+  </div>
+</div>
+}

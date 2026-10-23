@@ -9,6 +9,7 @@ import { ToastComponent } from './shared/components/toast/toast.component';
 import { CartDrawerComponent } from './shared/components/cart-drawer/cart-drawer.component';
 import { AuthModalComponent } from './shared/components/auth-modal/auth-modal.component';
 import { QuickBookModalComponent } from './shared/components/quick-book-modal/quick-book-modal.component';
+import { SplashScreenComponent } from './shared/components/splash-screen/splash-screen.component';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,7 @@ import { QuickBookModalComponent } from './shared/components/quick-book-modal/qu
   imports: [
     CommonModule,
     RouterOutlet,
+    SplashScreenComponent,
     HeaderComponent,
     FooterComponent,
     EmergencyStripComponent,

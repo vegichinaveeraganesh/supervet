@@ -1,0 +1,612 @@
+<div class="dashboard-page">
+  <!-- HERO BANNER (Matches SuperVet Home Theme) -->
+  <section class="dash-hero">
+    <div class="container hero-inner">
+      <div class="hero-left">
+        <div class="pill-badge">
+          <span class="live-dot"></span>
+          <span>Verified Pet Parent Portal · Hyderabad</span>
+        </div>
+
+        <div class="greeting-row">
+          <div class="user-avatar">
+            <app-icon name="user" size="32" color="#0B4A44"></app-icon>
+          </div>
+          <div class="greeting-text">
+            <h1>Welcome back, {{ authService.currentUser()?.name || 'Pet Parent' }}</h1>
+            <p class="hero-sub">
+              Comprehensive veterinary passport, electronic health dossiers & clinical appointments.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-actions">
+        <button type="button" class="btn btn-coral" (click)="showAddPetModal = true">
+          <app-icon name="plus" size="18" color="#FFFFFF"></app-icon>
+          <span>Add New Pet</span>
+        </button>
+        <button type="button" class="btn btn-ghost" (click)="aptService.openQuickBook()">
+          <app-icon name="calendar" size="18" color="#0B4A44"></app-icon>
+          <span>Book Appointment</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- QUICK METRICS STRIP -->
+    <div class="container">
+      <div class="metrics-ribbon">
+        <div class="metric-ribbon-item">
+          <div class="metric-icon mint-bg">
+            <app-icon name="paw" size="20" color="#0B4A44"></app-icon>
+          </div>
+          <div class="metric-text">
+            <span class="metric-val">{{ petService.pets().length }}</span>
+            <span class="metric-lbl">Registered Pets</span>
+          </div>
+        </div>
+
+        <div class="metric-ribbon-item">
+          <div class="metric-icon gold-bg">
+            <app-icon name="calendar" size="20" color="#B45309"></app-icon>
+          </div>
+          <div class="metric-text">
+            <span class="metric-val">{{ aptService.appointments().length }}</span>
+            <span class="metric-lbl">Upcoming Visits</span>
+          </div>
+        </div>
+
+        <div class="metric-ribbon-item">
+          <div class="metric-icon coral-bg">
+            <app-icon name="shield-check" size="20" color="#F25C3B"></app-icon>
+          </div>
+          <div class="metric-text">
+            <span class="metric-val">100% Up to Date</span>
+            <span class="metric-lbl">Vaccine Passport</span>
+          </div>
+        </div>
+
+        <div class="metric-ribbon-item">
+          <div class="metric-icon blue-bg">
+            <app-icon name="heart-pulse" size="20" color="#0284C7"></app-icon>
+          </div>
+          <div class="metric-text">
+            <span class="metric-val">24/7 Ready</span>
+            <span class="metric-lbl">Trauma ICU Access</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MOBILE QUICK PET SELECTOR (Sticky / Horizontal on small screens) -->
+  <section class="mobile-pet-selector-bar">
+    <div class="container">
+      <div class="mobile-pet-scroll">
+        <button
+          class="mobile-add-chip"
+          (click)="showAddPetModal = true"
+          type="button"
+        >
+          <app-icon name="plus" size="16" color="#0B4A44"></app-icon>
+          <span>Add Pet</span>
+        </button>
+
+        @for (pet of petService.pets(); track pet.id) {
+          <button
+            type="button"
+            class="mobile-pet-chip"
+            [class.active]="selectedPet?.id === pet.id"
+            (click)="selectedPet = pet"
+          >
+            <span class="chip-emoji">{{ getPetEmoji(pet.species) }}</span>
+            <span class="chip-name">{{ pet.name }}</span>
+            <span class="chip-breed">({{ pet.species }})</span>
+          </button>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT LAYOUT -->
+  <section class="dash-content-section">
+    <div class="container">
+      <div class="dash-grid">
+        <!-- LEFT COLUMN: PETS LIST & APPOINTMENTS -->
+        <div class="left-col">
+          <!-- MY REGISTERED PETS CARD -->
+          <div class="section-card pets-card">
+            <div class="card-head-row">
+              <div>
+                <span class="section-eyebrow">Family Roster</span>
+                <h3>My Registered Pets</h3>
+              </div>
+              <button type="button" class="chip-btn" (click)="showAddPetModal = true">
+                <app-icon name="plus" size="14" color="#0B4A44"></app-icon>
+                <span>Add</span>
+              </button>
+            </div>
+
+            <div class="pets-cards-list">
+              @for (pet of petService.pets(); track pet.id) {
+                <div
+                  class="pet-profile-summary"
+                  [class.active]="selectedPet?.id === pet.id"
+                  (click)="selectedPet = pet"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div class="pet-icon-wrap">
+                    <span class="pet-emoji">{{ getPetEmoji(pet.species) }}</span>
+                  </div>
+                  <div class="pet-info-text">
+                    <div class="pet-name-line">
+                      <h4>{{ pet.name }}</h4>
+                      @if (selectedPet?.id === pet.id) {
+                        <span class="active-badge">Active</span>
+                      }
+                    </div>
+                    <span class="pet-breed">{{ pet.breed }} · {{ pet.gender }}</span>
+                    <div class="pet-micro-meta">
+                      <span>Age: <strong>{{ pet.age || '1 yr' }}</strong></span>
+                      <span class="sep">•</span>
+                      <span>Weight: <strong>{{ pet.weight }} {{ pet.weightUnit || 'kg' }}</strong></span>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- UPCOMING APPOINTMENTS CARD -->
+          <div class="section-card apt-card">
+            <div class="card-head-row">
+              <div>
+                <span class="section-eyebrow">Clinical Schedule</span>
+                <h3>Appointments</h3>
+              </div>
+              <button class="link-btn" (click)="aptService.openQuickBook()">
+                + Book New
+              </button>
+            </div>
+
+            <div class="apt-list">
+              @if (aptService.appointments().length === 0) {
+                <div class="empty-state-mini">
+                  <p>No upcoming visits scheduled.</p>
+                  <button class="btn btn-sm btn-forest" (click)="aptService.openQuickBook()">
+                    Book Checkup
+                  </button>
+                </div>
+              } @else {
+                @for (apt of aptService.appointments(); track apt.id) {
+                  <div class="apt-item-card">
+                    <div class="apt-head">
+                      <span class="apt-status-chip" [class.confirmed]="apt.status === 'Confirmed'">
+                        {{ apt.status }}
+                      </span>
+                      <span class="apt-for-tag">For: <strong>{{ apt.petName }}</strong></span>
+                    </div>
+
+                    <h4>{{ apt.serviceName }}</h4>
+                    <div class="doc-line">
+                      <app-icon name="stethoscope" size="14" color="#0B4A44"></app-icon>
+                      <span>{{ apt.doctorName }}</span>
+                    </div>
+
+                    <div class="apt-meta-row">
+                      <span><app-icon name="calendar" size="13" color="#5E7471"></app-icon> {{ apt.date | date:'mediumDate' }}</span>
+                      <span><app-icon name="clock" size="13" color="#5E7471"></app-icon> {{ apt.timeSlot }}</span>
+                    </div>
+                  </div>
+                }
+              }
+            </div>
+          </div>
+
+          <!-- QUICK EMERGENCY HELPLINE BANNER -->
+          <div class="support-box">
+            <div class="support-icon">
+              <app-icon name="phone" size="20" color="#F25C3B"></app-icon>
+            </div>
+            <div class="support-text">
+              <h5>24/7 SuperVet Emergency Helpline</h5>
+              <p>Oxygen ICU, Trauma Bay & Emergency Ambulance in Hyderabad.</p>
+              <a href="tel:+919100088899" class="phone-link">+91 91000 88899</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: DETAILED PET DOSSIER -->
+        <div class="right-col">
+          @if (selectedPet) {
+            <!-- PET HEADER HERO CARD -->
+            <div class="section-card pet-detail-header-card">
+              <div class="pet-header-flex">
+                <div class="pet-header-left">
+                  <div class="huge-pet-avatar">
+                    <span class="huge-emoji">{{ getPetEmoji(selectedPet.species) }}</span>
+                  </div>
+                  <div class="pet-identity">
+                    <div class="species-pill">{{ selectedPet.species }}</div>
+                    <h2>{{ selectedPet.name }}</h2>
+                    <span class="breed-badge">{{ selectedPet.breed }} · {{ selectedPet.gender }}</span>
+
+                    <div class="microchip-text" *ngIf="selectedPet.microchipId">
+                      <app-icon name="shield-check" size="15" color="#0B4A44"></app-icon>
+                      <span>Microchip: <strong>{{ selectedPet.microchipId }}</strong></span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="pet-header-actions">
+                  <button
+                    type="button"
+                    class="btn btn-coral"
+                    (click)="aptService.openQuickBook(undefined, undefined)"
+                  >
+                    <app-icon name="calendar" size="16" color="#FFFFFF"></app-icon>
+                    <span>Book for {{ selectedPet.name }}</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- PET STATS GRID -->
+              <div class="pet-stats-row">
+                <div class="stat-pill">
+                  <span class="stat-lbl">Age</span>
+                  <strong>{{ selectedPet.age || '2 Years' }}</strong>
+                </div>
+                <div class="stat-pill">
+                  <span class="stat-lbl">Weight</span>
+                  <strong>{{ selectedPet.weight }} {{ selectedPet.weightUnit || 'kg' }}</strong>
+                </div>
+                <div class="stat-pill">
+                  <span class="stat-lbl">Neutered / Spayed</span>
+                  <strong [class.text-green]="selectedPet.isNeutered">
+                    {{ selectedPet.isNeutered ? 'Yes · Neutered' : 'No' }}
+                  </strong>
+                </div>
+                <div class="stat-pill">
+                  <span class="stat-lbl">Allergies</span>
+                  <strong>
+                    {{ selectedPet.allergies.length > 0 ? selectedPet.allergies.join(', ') : 'None Reported' }}
+                  </strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- TABS NAVIGATION -->
+            <div class="dossier-tabs-nav">
+              <button
+                type="button"
+                class="tab-btn"
+                [class.active]="activeTab === 'vaccines'"
+                (click)="activeTab = 'vaccines'"
+              >
+                <app-icon name="shield-check" size="16" [color]="activeTab === 'vaccines' ? '#0B4A44' : '#5E7471'"></app-icon>
+                <span>Vaccination Passport</span>
+                <span class="tab-count">{{ selectedPet.vaccinationRecords.length }}</span>
+              </button>
+
+              <button
+                type="button"
+                class="tab-btn"
+                [class.active]="activeTab === 'consultations'"
+                (click)="activeTab = 'consultations'"
+              >
+                <app-icon name="stethoscope" size="16" [color]="activeTab === 'consultations' ? '#0B4A44' : '#5E7471'"></app-icon>
+                <span>Consultations & Prescriptions</span>
+                <span class="tab-count">{{ selectedPet.medicalHistory.length }}</span>
+              </button>
+
+              <button
+                type="button"
+                class="tab-btn"
+                [class.active]="activeTab === 'diet'"
+                (click)="activeTab = 'diet'"
+              >
+                <app-icon name="heart" size="16" [color]="activeTab === 'diet' ? '#0B4A44' : '#5E7471'"></app-icon>
+                <span>Diet & Lifestyle</span>
+              </button>
+            </div>
+
+            <!-- TAB CONTENT: VACCINATION TRACKER -->
+            @if (activeTab === 'vaccines') {
+              <div class="section-card tab-content-card">
+                <div class="card-head-row">
+                  <div>
+                    <span class="section-eyebrow">Preventive Healthcare</span>
+                    <h3>Vaccination Passport</h3>
+                  </div>
+                  <span class="vac-status-all">
+                    <i class="live-dot"></i> Up to Date
+                  </span>
+                </div>
+
+                <!-- DESKTOP TABLE -->
+                <div class="table-wrap desktop-only">
+                  <table class="vac-table">
+                    <thead>
+                      <tr>
+                        <th>Vaccine Name</th>
+                        <th>Administered Date</th>
+                        <th>Next Due Date</th>
+                        <th>Veterinarian</th>
+                        <th>Batch No.</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (vac of selectedPet.vaccinationRecords; track vac.id) {
+                        <tr>
+                          <td>
+                            <div class="vaccine-title">
+                              <strong>{{ vac.vaccineName }}</strong>
+                            </div>
+                          </td>
+                          <td>{{ vac.dateAdministered | date:'mediumDate' }}</td>
+                          <td>
+                            <span class="due-badge">
+                              <app-icon name="calendar" size="12" color="#B45309"></app-icon>
+                              {{ vac.nextDueDate | date:'mediumDate' }}
+                            </span>
+                          </td>
+                          <td>{{ vac.administeredBy }}</td>
+                          <td><code>{{ vac.batchNumber || 'N/A' }}</code></td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- MOBILE RESPONSIVE CARDS -->
+                <div class="mobile-vaccine-cards mobile-only">
+                  @for (vac of selectedPet.vaccinationRecords; track vac.id) {
+                    <div class="mobile-vac-card">
+                      <div class="vac-card-head">
+                        <strong>{{ vac.vaccineName }}</strong>
+                        <code>{{ vac.batchNumber || 'N/A' }}</code>
+                      </div>
+                      <div class="vac-card-row">
+                        <span class="lbl">Administered:</span>
+                        <span class="val">{{ vac.dateAdministered | date:'mediumDate' }}</span>
+                      </div>
+                      <div class="vac-card-row">
+                        <span class="lbl">Next Due:</span>
+                        <span class="due-badge">{{ vac.nextDueDate | date:'mediumDate' }}</span>
+                      </div>
+                      <div class="vac-card-row">
+                        <span class="lbl">Doctor:</span>
+                        <span class="val">{{ vac.administeredBy }}</span>
+                      </div>
+                    </div>
+                  }
+                </div>
+
+                <div class="card-footer-action">
+                  <p class="vac-helper-text">
+                    Digital vaccination passport is officially signed by licensed SuperVet veterinary surgeons.
+                  </p>
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-ghost"
+                    (click)="aptService.openQuickBook(undefined, undefined)"
+                  >
+                    + Schedule Next Booster
+                  </button>
+                </div>
+              </div>
+            }
+
+            <!-- TAB CONTENT: MEDICAL CONSULTATIONS -->
+            @if (activeTab === 'consultations') {
+              <div class="section-card tab-content-card">
+                <div class="card-head-row">
+                  <div>
+                    <span class="section-eyebrow">Clinical Dossier</span>
+                    <h3>Consultations & Prescriptions</h3>
+                  </div>
+                  <button class="btn btn-sm btn-forest" (click)="aptService.openQuickBook()">
+                    + New Consultation
+                  </button>
+                </div>
+
+                @if (selectedPet.medicalHistory.length === 0) {
+                  <div class="empty-records">
+                    <div class="empty-icon-box">🐾</div>
+                    <h4>No Medical Conditions Logged</h4>
+                    <p>{{ selectedPet.name }} currently has a clean health bill with no chronic ailments or treatments.</p>
+                  </div>
+                } @else {
+                  <div class="med-history-list">
+                    @for (rec of selectedPet.medicalHistory; track rec.id) {
+                      <div class="med-rec-item">
+                        <div class="rec-date-col">
+                          <span class="rec-day">{{ rec.date | date:'dd' }}</span>
+                          <span class="rec-month">{{ rec.date | date:'MMM yyyy' }}</span>
+                        </div>
+                        <div class="rec-body">
+                          <div class="rec-top-row">
+                            <h4>{{ rec.diagnosis }}</h4>
+                            <span class="doc-credit">
+                              <app-icon name="stethoscope" size="13" color="#0B4A44"></app-icon>
+                              {{ rec.doctorName }}
+                            </span>
+                          </div>
+                          <div class="treatment-box">
+                            <span class="treatment-lbl">Treatment & Rx:</span>
+                            <p class="treatment-text">{{ rec.treatment }}</p>
+                          </div>
+                          @if (rec.notes) {
+                            <div class="rec-notes">
+                              <strong>Clinical Notes:</strong> {{ rec.notes }}
+                            </div>
+                          }
+                        </div>
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+            }
+
+            <!-- TAB CONTENT: DIET & LIFESTYLE -->
+            @if (activeTab === 'diet') {
+              <div class="section-card tab-content-card">
+                <div class="card-head-row">
+                  <div>
+                    <span class="section-eyebrow">Nutrition & Wellness</span>
+                    <h3>Dietary Protocol & Lifestyle</h3>
+                  </div>
+                </div>
+
+                <div class="diet-grid">
+                  <div class="diet-box">
+                    <div class="diet-head">
+                      <app-icon name="sparkles" size="18" color="#0B4A44"></app-icon>
+                      <h4>Dietary Regimen</h4>
+                    </div>
+                    <p class="diet-desc">
+                      {{ selectedPet.dietaryNotes || 'Standard balanced veterinary nutrition with fresh water access 24/7.' }}
+                    </p>
+                  </div>
+
+                  <div class="diet-box">
+                    <div class="diet-head">
+                      <app-icon name="alert-circle" size="18" color="#F25C3B"></app-icon>
+                      <h4>Allergies & Intolerances</h4>
+                    </div>
+                    @if (selectedPet.allergies.length > 0) {
+                      <div class="allergy-tags">
+                        @for (a of selectedPet.allergies; track a) {
+                          <span class="allergy-chip">⚠️ {{ a }}</span>
+                        }
+                      </div>
+                    } @else {
+                      <p class="diet-desc">No known adverse food reactions or drug sensitivities reported.</p>
+                    }
+                  </div>
+                </div>
+
+                <div class="vet-lifestyle-tip">
+                  <strong>SuperVet Nutritionist Tip:</strong> Keep hydration levels optimal. If transitioning foods, mix new kibble gradually over 7 to 10 days to protect sensitive gut microbiomes.
+                </div>
+              </div>
+            }
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADD NEW PET MODAL -->
+  @if (showAddPetModal) {
+    <div class="modal-backdrop" (click)="showAddPetModal = false"></div>
+    <div class="add-pet-modal" role="dialog" aria-modal="true">
+      <button class="modal-close" (click)="showAddPetModal = false" aria-label="Close modal">
+        <app-icon name="x" size="20" color="#5E7471"></app-icon>
+      </button>
+
+      <div class="modal-head">
+        <span class="section-eyebrow">Add Patient</span>
+        <h3>Register New Pet Patient</h3>
+        <p>Generate a certified medical dossier & digital vaccination passport.</p>
+      </div>
+
+      <form class="pet-form" (submit)="onAddPet($event)">
+        <!-- SPECIES SELECTION PILLS -->
+        <div class="species-select-block">
+          <label>Select Species</label>
+          <div class="species-pills-row">
+            @for (sp of speciesList; track sp) {
+              <button
+                type="button"
+                class="species-pill-btn"
+                [class.selected]="newPetSpecies === sp"
+                (click)="setSpecies(sp)"
+              >
+                <span>{{ getPetEmoji(sp) }}</span>
+                <span>{{ sp }}</span>
+              </button>
+            }
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Pet Name *</label>
+            <input
+              type="text"
+              [(ngModel)]="newPetName"
+              name="name"
+              placeholder="e.g. Leo, Bella, Rocky"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Breed *</label>
+            <input
+              type="text"
+              [(ngModel)]="newPetBreed"
+              name="breed"
+              placeholder="e.g. Golden Retriever, Persian"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Gender</label>
+            <select [(ngModel)]="newPetGender" name="gender">
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Age</label>
+            <input
+              type="text"
+              [(ngModel)]="newPetAge"
+              name="age"
+              placeholder="e.g. 2 Years, 6 Months"
+            />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Weight (kg)</label>
+            <input
+              type="number"
+              [(ngModel)]="newPetWeight"
+              name="weight"
+              placeholder="e.g. 15"
+              step="0.5"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Neutered / Spayed?</label>
+            <select [(ngModel)]="newPetNeutered" name="neutered">
+              <option [ngValue]="true">Yes · Neutered/Spayed</option>
+              <option [ngValue]="false">No · Intact</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer-btns">
+          <button type="button" class="btn btn-ghost" (click)="showAddPetModal = false">
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-coral">
+            <app-icon name="check" size="18" color="#FFFFFF"></app-icon>
+            <span>Save Pet Profile</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+</div>
